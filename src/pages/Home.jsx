@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
+import ListCategories from './ListCategories';
 
 export default class Home extends Component {
   constructor() {
@@ -82,6 +83,7 @@ export default class Home extends Component {
           </button>
         </form>
         { isLoading && <Loading /> }
+        <ListCategories />
       </main>
     );
   }
