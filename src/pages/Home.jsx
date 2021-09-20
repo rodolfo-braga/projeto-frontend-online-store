@@ -1,16 +1,85 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import ListCategories from './ListCategories';
+import { getProductsFromCategoryAndQuery } from '../services/api';
+import ProductCard from '../components/ProductCard';
+import Loading from '../components/Loading';
+import ListCategories from '../components/ListCategories';
 
 export default class Home extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isLoading: false,
+      searchDone: false,
+      category: null,
+      searchText: '',
+      productsResponse: [],
+    };
+  }
+
+  handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
+
+  handleRadio = ({ target: { checked, value } }) => {
+    if (checked) {
+      this.setState({ category: value });
+    }
+  }
+
+  handleClick = async () => {
+    const { category, searchText } = this.state;
+    this.setState({ isLoading: true });
+
+    const apiResponse = await getProductsFromCategoryAndQuery(category, searchText);
+
+    this.setState({
+      isLoading: false,
+      searchDone: true,
+      productsResponse: apiResponse.results,
+    });
+  }
+
+  renderResults = () => {
+    const { productsResponse } = this.state;
+
+    if (productsResponse.length === 0) {
+      return <p>Nenhum produto foi encontrado</p>;
+    }
+
+    return productsResponse
+      .map((product) => <ProductCard product={ product } key={ product.id } />);
+  }
+
   render() {
+    const { renderResults, handleInputChange, handleClick, handleRadio,
+      state: { isLoading, searchDone, searchText } } = this;
+
     return (
       <main>
         <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
-        <ListCategories />
+        <form>
+          <input
+            type="text"
+            name="searchText"
+            id="query-input"
+            value={ searchText }
+            onChange={ handleInputChange }
+            data-testid="query-input"
+          />
+          <button
+            type="button"
+            data-testid="query-button"
+            onClick={ handleClick }
+          >
+            Pesquisar
+          </button>
+        </form>
+        { isLoading && <Loading /> }
+        { searchDone && renderResults() }
+        <ListCategories handleRadio={ handleRadio } />
       </main>
     );
   }

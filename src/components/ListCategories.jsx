@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getCategories } from '../services/api';
 
 export default class ListCategories extends React.Component {
@@ -23,15 +24,24 @@ export default class ListCategories extends React.Component {
 
   render() {
     const { categoriesList } = this.state;
+    const { handleRadio } = this.props;
+
     return (
       <aside>
         <ul>
           { categoriesList.map((category) => (
-            <li
-              key={ category.id }
-              data-testid="category"
-            >
-              { category.name}
+            <li key={ category.id }>
+              <label htmlFor={ category.id }>
+                <input
+                  type="radio"
+                  name="radio-input"
+                  value={ category.name }
+                  id={ category.id }
+                  data-testid="category"
+                  onChange={ handleRadio }
+                />
+                { category.name }
+              </label>
             </li>
           ))}
         </ul>
@@ -39,3 +49,7 @@ export default class ListCategories extends React.Component {
     );
   }
 }
+
+ListCategories.propTypes = {
+  handleRadio: PropTypes.func.isRequired,
+};
