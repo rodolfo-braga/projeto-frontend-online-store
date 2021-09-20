@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
-import ListCategories from './ListCategories';
+import ListCategories from '../components/ListCategories';
 
 export default class Home extends Component {
   constructor() {
@@ -11,53 +11,48 @@ export default class Home extends Component {
 
     this.state = {
       isLoading: false,
-      category: 'Accesorios para Vehículos', // < LEMBRAR DE ATUALIZAR
+      searchDone: false,
+      category: null,
       searchText: '',
       productsResponse: [],
     };
   }
 
-  componentDidMount() {
-    // const { isLoading } = this.state;
-
-    // if (isLoading) {
-    //   this.getProducts();
-    // }
-  }
-
-  getProducts = async () => {
-    const { category, searchText } = this.state;
-    console.log('getprodudcts');
-
-    const productsResponse = await getProductsFromCategoryAndQuery(category, searchText);
-    this.setState({
-      isLoading: false,
-      productsResponse });
-  }
-
   handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
-  handleClick = () => {
-    const { category, searchText } = this.state;
-    console.log('handleclick');
+  handleRadio = ({ target: { checked, value } }) => {
+    if (checked) {
+      this.setState({ category: value });
+    }
+  }
 
+  handleClick = async () => {
+    const { category, searchText } = this.state;
     this.setState({ isLoading: true });
-    this.getProducts(category, searchText);
+
+    const apiResponse = await getProductsFromCategoryAndQuery(category, searchText);
+
+    this.setState({
+      isLoading: false,
+      searchDone: true,
+      productsResponse: apiResponse.results,
+    });
   }
 
   renderResults = () => {
     const { productsResponse } = this.state;
 
-    if (!productsResponse.length) {
+    if (productsResponse.length === 0) {
       return <p>Nenhum produto foi encontrado</p>;
     }
 
-    return productsResponse.map((product) => <ProductCard product={ product } />);
+    return productsResponse
+      .map((product) => <ProductCard product={ product } key={ product.id } />);
   }
 
   render() {
-    const { handleInputChange, handleClick,
-      state: { isLoading, searchText } } = this;
+    const { renderResults, handleInputChange, handleClick, handleRadio,
+      state: { isLoading, searchDone, searchText } } = this;
 
     return (
       <main>
@@ -75,7 +70,7 @@ export default class Home extends Component {
             data-testid="query-input"
           />
           <button
-            type="submit"
+            type="button"
             data-testid="query-button"
             onClick={ handleClick }
           >
@@ -83,7 +78,8 @@ export default class Home extends Component {
           </button>
         </form>
         { isLoading && <Loading /> }
-        <ListCategories />
+        { searchDone && renderResults() }
+        <ListCategories handleRadio={ handleRadio } />
       </main>
     );
   }
