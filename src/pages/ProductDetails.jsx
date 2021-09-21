@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import addCartItemOnClick from '../services/manageCartItems';
 
 export default class ProductDetails extends Component {
   constructor() {
@@ -26,14 +27,21 @@ export default class ProductDetails extends Component {
   }
 
   render() {
-    const { product: { title, price, thumbnail } } = this.state;
+    const { product: { title, price, thumbnail }, product } = this.state;
     return (
       <section>
-        <Link to="/Cart">Carrinho</Link>
+        <Link to="/Cart" data-testid="shopping-cart-button">Carrinho</Link>
         <div data-testid="product-detail-name">
           <h1>{ title }</h1>
           <p>{ price }</p>
           <img src={ thumbnail } alt={ title } />
+          <button
+            type="button"
+            data-testid="product-detail-add-to-cart"
+            onClick={ () => addCartItemOnClick(product) }
+          >
+            Adicionar ao carrinho
+          </button>
         </div>
       </section>
     );
