@@ -18,7 +18,7 @@ export default class Cart extends Component {
 
   getCartItems = () => {
     const getCartItems = JSON.parse((localStorage.getItem('savedCartItems')));
-    console.log(getCartItems);
+
     this.setState({
       cartItems: getCartItems,
       isLoading: false,
@@ -32,6 +32,10 @@ export default class Cart extends Component {
   );
 
   render() {
+    if (!JSON.parse(localStorage.getItem('savedCartItems'))) {
+      localStorage.setItem('savedCartItems', JSON.stringify([]));
+    }
+
     const { isLoading, cartItems } = this.state;
 
     return (
