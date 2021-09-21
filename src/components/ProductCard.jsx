@@ -3,19 +3,37 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 export default class ProductCard extends Component {
+  addCartItemOnClick = () => {
+    const { product } = this.props;
+
+    if (!JSON.parse(localStorage.getItem('savedCartItems'))) {
+      localStorage.setItem('savedCartItems', JSON.stringify([]));
+    }
+
+    const getCartItems = JSON.parse((localStorage.getItem('savedCartItems')));
+
+    localStorage.setItem('savedCartItems', JSON.stringify([...getCartItems, product]));
+  };
+
   render() {
-    const { product: { title, id, thumbnail, price } } = this.props;
+    const {
+      product: { title, id, thumbnail, price },
+    } = this.props;
 
     return (
       <div data-testid="product" id={ id }>
-        <Link
-          data-testid="product-detail-link"
-          to={ `product/details/${id}` }
-        >
-          <h3>{ title }</h3>
+        <Link data-testid="product-detail-link" to={ `product/details/${id}` }>
+          <h3>{title}</h3>
           <img src={ thumbnail } alt={ title } />
-          <span>{ price }</span>
+          <span>{price}</span>
         </Link>
+        <button
+          type="button"
+          onClick={ this.addCartItemOnClick }
+          data-testid="product-add-to-cart"
+        >
+          Adicionar ao carrinho
+        </button>
       </div>
     );
   }
