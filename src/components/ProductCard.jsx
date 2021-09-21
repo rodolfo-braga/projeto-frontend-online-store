@@ -17,12 +17,15 @@ export default class ProductCard extends Component {
 
   render() {
     const {
-      product: { title, id, thumbnail, price },
+      product: { title, id, thumbnail, price, category_id: categoryId },
     } = this.props;
 
     return (
       <div data-testid="product" id={ id }>
-        <Link data-testid="product-detail-link" to={ `product/details/${id}` }>
+        <Link
+          data-testid="product-detail-link"
+          to={ `/details/${id}/${title}/${categoryId}` }
+        >
           <h3>{title}</h3>
           <img src={ thumbnail } alt={ title } />
           <span>{price}</span>
@@ -45,5 +48,6 @@ ProductCard.propTypes = {
     id: PropTypes.string,
     thumbnail: PropTypes.string,
     price: PropTypes.number,
+    category_id: PropTypes.string,
   }).isRequired,
 };
