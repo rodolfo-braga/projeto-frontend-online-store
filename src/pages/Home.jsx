@@ -20,9 +20,19 @@ export default class Home extends Component {
 
   handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
-  handleRadio = ({ target: { checked, value } }) => {
+  handleRadio = async ({ target: { checked, value, id } }) => {
     if (checked) {
-      this.setState({ category: value });
+      this.setState({
+        category: value,
+        productsResponse: [],
+        isLoading: true,
+      });
+      const fetchCategory = await getProductsFromCategoryAndQuery(id, '$QUERY');
+      this.setState({
+        productsResponse: fetchCategory.results,
+        isLoading: false,
+        searchDone: true,
+      });
     }
   }
 
