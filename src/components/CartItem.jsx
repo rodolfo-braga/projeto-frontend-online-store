@@ -10,6 +10,21 @@ export default class CartItem extends Component {
     };
   }
 
+  handleClick = ({ target }) => {
+    const { value } = target;
+    const { quantity } = this.state;
+
+    if (value === 'decrease' && quantity > 0) {
+      this.setState((prevState) => ({
+        quantity: prevState.quantity - 1,
+      }));
+    } else if (value === 'increase') {
+      this.setState((prevState) => ({
+        quantity: prevState.quantity + 1,
+      }));
+    }
+  }
+
   render() {
     const {
       props: { item: { title, price, thumbnail } },
@@ -21,7 +36,25 @@ export default class CartItem extends Component {
         <h4 data-testid="shopping-cart-product-name">{ title }</h4>
         <img src={ thumbnail } alt={ title } />
         <p>{ price }</p>
-        <p data-testid="shopping-cart-product-quantity">{ `Qtd: ${quantity}` }</p>
+        <button
+          type="button"
+          onClick={ this.handleClick }
+          value="decrease"
+          data-testid="product-decrease-quantity"
+        >
+          -
+        </button>
+        <p data-testid="shopping-cart-product-quantity">
+          { `Qtd: ${quantity}` }
+        </p>
+        <button
+          type="button"
+          onClick={ this.handleClick }
+          value="increase"
+          data-testid="product-increase-quantity"
+        >
+          +
+        </button>
       </div>
     );
   }
