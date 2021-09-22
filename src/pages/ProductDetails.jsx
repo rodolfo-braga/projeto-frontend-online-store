@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import addCartItemOnClick from '../services/manageCartItems';
+import ProductReview from '../components/ProductReview';
 
 export default class ProductDetails extends Component {
   constructor() {
@@ -43,6 +44,7 @@ export default class ProductDetails extends Component {
             Adicionar ao carrinho
           </button>
         </div>
+        <ProductReview />
       </section>
     );
   }
