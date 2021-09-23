@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+.form-review {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.all-reviews-container {
+  margin: 20px;
+}
+
+.review-container {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0;
+  padding: 15px 0;
+}
+
+.email-review {
+  margin: 10px 20px;
+}
+
+.rating-review {
+  margin: 10px 20px;
+
+}
+
+.comment-review {
+  margin: 10px 20px;
+}
