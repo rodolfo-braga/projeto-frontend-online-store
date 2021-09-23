@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import '../App.css';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
@@ -56,8 +57,12 @@ export default class Home extends Component {
       return <p>Nenhum produto foi encontrado</p>;
     }
 
-    return productsResponse
-      .map((product) => <ProductCard product={ product } key={ product.id } />);
+    return (
+      <aside className="products-conteiner">
+        { productsResponse
+          .map((product) => <ProductCard product={ product } key={ product.id } />)}
+      </aside>
+    );
   }
 
   render() {
@@ -66,27 +71,36 @@ export default class Home extends Component {
 
     return (
       <main>
-        <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
-        <form>
-          <input
-            type="text"
-            name="searchText"
-            id="query-input"
-            value={ searchText }
-            onChange={ handleInputChange }
-            data-testid="query-input"
-          />
-          <button
-            type="button"
-            data-testid="query-button"
-            onClick={ handleClick }
-          >
-            Pesquisar
-          </button>
-        </form>
+        <header>
+          <div className="header-content">
+            <Link to="/cart" data-testid="shopping-cart-button" className="cart">
+              Carrinho
+            </Link>
+            <p data-testid="home-initial-message">
+              Digite algum termo de pesquisa ou escolha uma categoria.
+            </p>
+            <form>
+              <input
+                className="input-search"
+                type="text"
+                name="searchText"
+                id="query-input"
+                value={ searchText }
+                onChange={ handleInputChange }
+                data-testid="query-input"
+              />
+              <button
+                className="input-button"
+                color="primary"
+                type="button"
+                data-testid="query-button"
+                onClick={ handleClick }
+              >
+                Pesquisar
+              </button>
+            </form>
+          </div>
+        </header>
         { isLoading && <Loading /> }
         { searchDone && renderResults() }
         <ListCategories handleRadio={ handleRadio } />
