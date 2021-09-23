@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import addCartItemOnClick from '../services/manageCartItems';
-import ProductReview from '../components/ProductReview';
+import ProductReview from '../components/ProductReview/ProductReview';
 
 export default class ProductDetails extends Component {
   constructor() {
@@ -28,7 +28,7 @@ export default class ProductDetails extends Component {
   }
 
   render() {
-    const { product: { title, price, thumbnail }, product } = this.state;
+    const { product: { title, price, thumbnail, id }, product } = this.state;
     return (
       <section>
         <Link to="/Cart" data-testid="shopping-cart-button">Carrinho</Link>
@@ -44,7 +44,7 @@ export default class ProductDetails extends Component {
             Adicionar ao carrinho
           </button>
         </div>
-        <ProductReview />
+        <ProductReview productId={ id } />
       </section>
     );
   }
