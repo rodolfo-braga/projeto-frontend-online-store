@@ -131,3 +131,55 @@ img {
   background-color: rgb(236, 14, 14);
 }
 
+.cart-container {
+  margin-top: -60px;
+  width: 970px;
+  float: right;
+  text-align: center;
+}
+
+.cart-container h4 {
+  font-size: 16px;
+  margin-top: 12px;
+  height: 48px;
+}
+
+.cart-container img {
+  width: 180px;
+  height: 180px;
+}
+
+.cart-container button {
+  border-radius: 50px;
+  width: 30px;
+  border: none;
+  background-color: rgb(189, 39, 39);
+  color: white;
+  font-size: 18px;
+}
+
+.cart-container button:hover {
+  background-color: rgb(236, 14, 14);
+}
+
+.cart-itens {
+  width: 420px;
+  height: 320px;
+  float: left;
+  margin: auto; 
+}
+
+.cart-itens-qtdd {
+  display: flex;
+  height: 30px;
+  width: 125px;
+  margin: auto;
+}
+
+.cart-itens-qtdd p {
+  margin: 0 8px;
+}
+
+.exit-cart {
+  clear: both;
+}

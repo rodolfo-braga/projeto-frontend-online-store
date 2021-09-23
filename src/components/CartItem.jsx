@@ -32,29 +32,31 @@ export default class CartItem extends Component {
     } = this;
 
     return (
-      <div>
+      <div className="cart-itens">
         <h4 data-testid="shopping-cart-product-name">{ title }</h4>
         <img src={ thumbnail } alt={ title } />
         <p>{ price }</p>
-        <button
-          type="button"
-          onClick={ this.handleClick }
-          value="decrease"
-          data-testid="product-decrease-quantity"
-        >
-          -
-        </button>
-        <p data-testid="shopping-cart-product-quantity">
-          { `Qtd: ${quantity}` }
-        </p>
-        <button
-          type="button"
-          onClick={ this.handleClick }
-          value="increase"
-          data-testid="product-increase-quantity"
-        >
-          +
-        </button>
+        <div className="cart-itens-qtdd">
+          <button
+            type="button"
+            onClick={ this.handleClick }
+            value="decrease"
+            data-testid="product-decrease-quantity"
+          >
+            -
+          </button>
+          <p data-testid="shopping-cart-product-quantity">
+            { `Qtd: ${quantity}` }
+          </p>
+          <button
+            type="button"
+            onClick={ this.handleClick }
+            value="increase"
+            data-testid="product-increase-quantity"
+          >
+            +
+          </button>
+        </div>
       </div>
     );
   }
