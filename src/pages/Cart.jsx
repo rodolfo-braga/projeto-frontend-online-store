@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CartItem from '../components/CartItem';
 import Loading from '../components/Loading';
+import Home from './Home';
 
 export default class Cart extends Component {
   constructor() {
@@ -40,10 +41,14 @@ export default class Cart extends Component {
 
     return (
       <section data-testid="shopping-cart-empty-message">
-        { isLoading && <Loading /> }
-        { cartItems.length > 0
-          ? this.renderCartItems(cartItems)
-          : <h3>Seu carrinho está vazio</h3> }
+        <Home />
+        <div className="cart-container">
+          <h2>Carrinho</h2>
+          { isLoading && <Loading /> }
+          { cartItems.length > 0
+            ? this.renderCartItems(cartItems)
+            : <h3>Seu carrinho está vazio</h3> }
+        </div>
       </section>
     );
   }

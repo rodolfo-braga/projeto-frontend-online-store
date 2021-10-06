@@ -11,14 +11,18 @@ export default class ProductCard extends Component {
     } = this.props;
 
     return (
-      <div data-testid="product" id={ id }>
+      <div data-testid="product" id={ id } className="product-card">
         <Link
           data-testid="product-detail-link"
           to={ `/details/${id}/${title}/${categoryId}` }
         >
-          <h3>{title}</h3>
           <img src={ thumbnail } alt={ title } />
-          <span>{price}</span>
+          <h3>{title}</h3>
+          <span>
+            Preço:
+            {' '}
+            {price}
+          </span>
         </Link>
         <button
           type="button"
